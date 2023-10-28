@@ -1,24 +1,13 @@
 import React, { Component } from "react";
-
-const arregloEstudiantes = [
-  {
-    id: 1,
-    nombre: "Luis",
-    apellido: "Cascante",
-    nota: 100,
-  },
-  {
-    id: 2,
-    nombre: "Juan",
-    apellido: "Perez",
-    nota: 80,
-  },
-];
+import Nombre from "./Nombre";
 
 export class EjemploClases extends Component {
   // 1
   constructor(props) {
     super(props);
+
+    this.horaInicio = new Date();
+    this.horaFin = undefined;
 
     this.state = {
       nombre: "Luis",
@@ -26,23 +15,34 @@ export class EjemploClases extends Component {
     };
   }
 
+  async traerDatos() {
+    const datos = await fetch("https://jsonplaceholder.typicode.com/todos/1");
+    const datosJson = await datos.json();
+
+    this.setState({
+      nombre: datosJson.title,
+      apellido: datosJson.completed,
+    });
+
+    this.horaFin = new Date();
+    console.log("Tiempo de llamado: ", this.horaFin - this.horaInicio);
+  }
+
   // 2
-render() {
+  render() {
     return (
       <div>
-        <p>
-          Hola mi nombre es {this.state.nombre} {this.state.apellido}
-        </p>
+        <Nombre nombre={this.state.nombre} apellido={this.state.apellido} />
       </div>
     );
   }
 
   // 3
   componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        nombre: "Alonzo",
-      });
-    }, 5000);
+    this.horaFin = new Date();
+    console.log("Tiempo de ejecución: ", this.horaFin - this.horaInicio);
+    console.log("Componente montado");
+    this.traerDatos();
+    console.log("Llamada terminada");
   }
 }

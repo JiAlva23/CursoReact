@@ -15,14 +15,21 @@ export class FormularioLoginClasses extends Component {
     this.setState({
       email: event.target.value,
     });
-    console.log("Email", this.state.email);
   }
 
   handlePasswordChange(event) {
     this.setState({
       password: event.target.value,
     });
-    console.log("Password", this.state.password);
+  }
+
+  handleButtonClick() {
+    const datos = {
+      email: this.state.email,
+      password: this.state.password,
+    };
+
+    console.log(datos);
   }
 
   render() {
@@ -45,6 +52,10 @@ export class FormularioLoginClasses extends Component {
           id="password"
           name="password"
         />
+
+        <button onClick={this.handleButtonClick.bind(this)} type="button">
+          Iniciar sesión
+        </button>
       </form>
     );
   }
